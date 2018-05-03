@@ -1,3 +1,40 @@
+//choose the player character
+
+const playersCards = document.querySelectorAll(".card");
+const start = document.querySelector(".start-game");
+let playerChar;
+let allGem = [];
+
+
+for (let i = 0; i < playersCards.length; i++) {
+  playersCards[i].addEventListener("click", function(e) {
+    playersCards[0].className = "card";
+    if (playerChar != playersCards[i].id) {
+      if (playerChar != undefined) {
+        document.getElementById(playerChar).className = "card";
+      }
+      playersCards[i].classList.add("choose");
+      playerChar = playersCards[i].id;
+    }
+  });
+}
+
+
+
+//start the game
+function startGame() {
+  start.style.display = "none";
+  document.querySelector(".score-panel").style.display = "block";
+  allEnemies = [];
+  allGem = [];
+  player = null;
+  player = new Player(playerChar, 205, 446);
+  genrateEnemies();
+  genrateGems();
+  document.body.appendChild(canvas);
+
+
+}
 // Enemies our player must avoid
 let allEnemies = [];
 //Enemy Class
@@ -38,11 +75,15 @@ class Enemy {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   }
 };
-const enemy1 = new Enemy(0, 60);
-const enemy2 = new Enemy(200, 100);
-const enemy3 = new Enemy(400, 170);
-const enemy4 = new Enemy(100, 230);
-allEnemies = [enemy1, enemy2, enemy3, enemy4];
+
+function genrateEnemies() {
+  const enemy1 = new Enemy(0, 60);
+  const enemy2 = new Enemy(200, 100);
+  const enemy3 = new Enemy(400, 170);
+  const enemy4 = new Enemy(100, 230);
+  allEnemies = [enemy1, enemy2, enemy3, enemy4];
+}
+
 //light class
 /*
  *** When the collision happens between the enemy and the player,
@@ -101,20 +142,20 @@ class Gem {
     this.y = y;
   }
   update(dt) {
-    let speed = 300 * dt;
+    let speed = 400 * dt;
     setTimeout(() => {
       this.y += speed;
-    }, 8000);
+    }, Math.random() * 8000);
     let y1 = player.y;
     let y2 = player.y + 60;
-    let ey1 = this.y;
-    let ey2 = this.y + 81;
+    let gy1 = this.y;
+    let gy2 = this.y + 81;
     let x1 = player.x;
     let x2 = player.x + 67;
-    let ex1 = this.x;
-    let ex2 = this.x + 85;
-    if (x1 < ex2 && x2 > ex1 &&
-      y1 < ey2 && y2 > ey1) {
+    let gx1 = this.x;
+    let gx2 = this.x + 85;
+    if (x1 < gx2 && x2 > gx1 &&
+      y1 < gy2 && y2 > gy1) {
       heart.x = player.x;
       heart.y = player.y - 20;
       this.x = -500;
@@ -129,15 +170,37 @@ class Gem {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   }
 };
-const gemBlue = new Gem('blue', 32 + (Math.random() * 446), -200);
-const gemGreen = new Gem('green', 32 + (Math.random() * 446), -2900);
-const gemOrange = new Gem('orange', 32 + (Math.random() * 446), -6000);
-const allGem = [gemBlue, gemGreen, gemOrange];
+
+function genrateGems() {
+  const gemBlue = new Gem('blue', Math.floor(Math.random() * 450), -200);
+  const gemGreen = new Gem('green', Math.floor(Math.random() * 450), -2900);
+  const gemOrange = new Gem('orange', Math.floor(Math.random() * 450), -6000);
+  allGem = [gemBlue, gemGreen, gemOrange];
+}
+
 
 // player class
 class Player {
-  constructor(x, y) {
-    this.sprite = 'images/char-cat-girl.png';
+
+  constructor(char = 'char-boy', x, y) {
+    switch (char) {
+      case 'char-boy':
+        this.sprite = 'images/char-boy.png';
+        break;
+      case 'char-cat-girl':
+        this.sprite = 'images/char-cat-girl.png';
+        break;
+      case 'char-horn-girl':
+        this.sprite = 'images/char-horn-girl.png';
+        break;
+      case 'char-pink-girl':
+        this.sprite = 'images/char-pink-girl.png';
+        break;
+      case 'char-princess-girl':
+        this.sprite = 'images/char-princess-girl.png';
+        break;
+
+    }
     this.x = x;
     this.y = y;
   }
@@ -164,7 +227,11 @@ class Player {
     }
   }
 }
-const player = new Player(205, 445);
+//const playerImage = document.querySelector(".choose").id;
+
+let player = new Player(playerChar, 205, 445);
+
+
 const light = new Light(-200, -200);
 const heart = new Heart(-200, -200);
 
@@ -180,7 +247,7 @@ document.addEventListener('keyup', function(e) {
 
   player.handleInput(allowedKeys[e.keyCode]);
 
-  // TODO: **Choose a charecter .
+  // TODO: **Choose a character///Done! .
   ////     **Add Score.
   ////     **Win the Game.
   /////    **Game Over.

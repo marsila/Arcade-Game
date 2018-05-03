@@ -1,3 +1,163 @@
-body {
-    text-align: center;
+html {
+  box-sizing: border-box;
 }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  text-align: center;
+  font-family: 'Coda', cursive;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+header h1 {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  margin-bottom: 0;
+  color: blue;
+}
+
+.score-panel {
+  text-align: right;
+  display: none;
+  width: 65%;
+  font-size: 1.8em;
+  margin-right: 10px;
+  margin-bottom: 0;
+  /* border: solid 1px black; */
+}
+
+.score-panel .stars {
+  padding: 0;
+  display: inline-block;
+  margin: 5px 5px 0 0;
+}
+
+.score-panel .stars li {
+  list-style: none;
+  display: inline-block;
+  color: gold;
+}
+
+.score-panel .hearts {
+  padding: 0;
+  display: inline-block;
+  margin: 5px 5px 0 0;
+}
+
+.score-panel .hearts li {
+  list-style: none;
+  display: inline-block;
+  color: gray;
+}
+
+.start-game {
+  width: 90%;
+  min-height: 500px;
+  display: block;
+  box-shadow: 5px 2px 20px 0 rgba(0, 0, 0, 0.26);
+  border-radius: 30px;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+  padding: 10px;
+  background: #ffffff url('../images/background.png');
+  text-align: center;
+}
+
+.start-game h2 {
+  color: #341f84;
+  margin-top: 1.5em;
+}
+
+.players {
+  width: 90%;
+  min-height: 100%;
+  padding: 32px;
+  border-radius: 10px;
+  box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 3em;
+}
+
+.players .card {
+  list-style: none;
+  margin: 2px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+}
+
+.players .card.choose {
+  background-color: #f79ef2;
+  cursor: default;
+}
+
+.btn {
+  border-radius: 8px;
+  box-shadow: 5px 2px 20px 0 #63588c;
+  background-color: #341f84;
+  color: #ffffff;
+  padding: 0.6em;
+  cursor: pointer;
+  font-size: 0.95em;
+  font-weight: 600;
+}
+
+.btn:hover {
+  padding: 0.75em;
+  background-color: #711b76;
+  box-shadow: 5px 2px 20px 0 #711b76;
+}
+
+.finish-game {
+  width: 95%;
+  min-height: 1000px;
+  /* display: none; */
+  box-shadow: 5px 2px 20px 0 rgba(0, 0, 0, 0.26);
+  border-radius: 30px;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+  padding: 10px;
+  background: #ffffff url('../images/background.png');
+  text-align: center;
+}
+
+.finish-game {
+  display: block;
+  z-index: 10;
+  position: absolute;
+  -webkit-transform: translateY(-9999px);
+  transform: translateY(-9999px);
+  transition: transform 2s ease;
+}
+
+.finish-game.view {
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+}
+
+.finish-game h1 {
+  color: #341f84;
+  margin-top: 5em;
+}
+
