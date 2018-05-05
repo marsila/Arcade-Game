@@ -2,9 +2,44 @@
 
 const playersCards = document.querySelectorAll(".card");
 const start = document.querySelector(".start-game");
+const scorePanel = document.querySelector(".score-panel");
+const playAgainButton = document.querySelector(".play-again");
 let playerChar;
 let allGem = [];
+const hearts = document.querySelector(".hearts");
+const stars = document.querySelector(".stars");
+let heartsCount = 0;
+let starsCount = 3;
 
+function loseStar() {
+  if (starsCount > 0) {
+    stars.children[starsCount - 1].style.color = "gray";
+  }
+  starsCount--;
+  if (starsCount == 0 && heartsCount == 0) {
+    gameOver();
+  }
+}
+
+function gameOver() {
+  ctx.fillStyle = "#341f84";
+  ctx.font = "700 50px Coda";
+  playAgainButton.style.display = "block";
+  allEnemies = [];
+  allGem = [];
+
+}
+
+function winHeart() {
+  for (var i = 0; i < heartsCount; i++) {
+    hearts.children[i].style.color = "red";
+  }
+}
+
+function loseHeart() {
+  hearts.children[heartsCount - 1].style.color = "gray";
+  heartsCount--;
+}
 
 for (let i = 0; i < playersCards.length; i++) {
   playersCards[i].addEventListener("click", function(e) {
@@ -24,7 +59,7 @@ for (let i = 0; i < playersCards.length; i++) {
 //start the game
 function startGame() {
   start.style.display = "none";
-  document.querySelector(".score-panel").style.display = "block";
+  scorePanel.style.display = "block";
   allEnemies = [];
   allGem = [];
   player = null;
@@ -33,6 +68,18 @@ function startGame() {
   genrateGems();
   document.body.appendChild(canvas);
 
+
+}
+
+function playAgain() {
+  start.style.display = "block";
+  scorePanel.style.display = "none";
+  playAgainButton.style.display = "none";
+  document.body.removeChild(canvas);
+  starsCount = 3;
+  for (var i = 0; i < starsCount; i++) {
+    stars.children[i].style.color = "gold";
+  }
 
 }
 // Enemies our player must avoid
@@ -62,12 +109,25 @@ class Enemy {
       y1 < ey2 && y2 > ey1) {
       light.x = player.x;
       light.y = player.y;
+      this.x = x1 - 101;
+      //this.y = Math.floor(60 + Math.random() * 231);
       setTimeout(() => {
         light.x = -200;
         light.y = -200;
         player.x = 205;
         player.y = 445;
-      }, 500);
+      }, 300);
+      if (heartsCount > 0) {
+        loseHeart();
+        console.log(`heart = ${heartsCount}`);
+      } else {
+        if (starsCount == 0 && heartsCount == 0) {
+          gameOver();
+        }
+        loseStar();
+        console.log(`stars=${starsCount}`);
+
+      }
     }
 
   }
@@ -164,7 +224,11 @@ class Gem {
         heart.x = -200;
         heart.y = -200;
       }, 600);
+      heartsCount++;
+      winHeart();
+
     }
+
   }
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -247,10 +311,14 @@ document.addEventListener('keyup', function(e) {
 
   player.handleInput(allowedKeys[e.keyCode]);
 
-  // TODO: **Choose a character///Done! .
-  ////     **Add Score.
+
+
+
+
+  // TODO: 
+  ////     
   ////     **Win the Game.
-  /////    **Game Over.
+  /////    
   ///////////
 
 });

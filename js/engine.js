@@ -125,7 +125,9 @@ var Engine = (function(global) {
       row, col;
 
     // Before drawing, clear existing canvas
+
     ctx.clearRect(0, 0, canvas.width, canvas.height)
+
 
     /* Loop through the number of rows and columns we've defined above
      * and, using the rowImages array, draw the correct image for that
@@ -155,6 +157,12 @@ var Engine = (function(global) {
     /* Loop through all of the objects within the allEnemies array and call
      * the render function you have defined.
      */
+    if (allEnemies.length == 0) {
+      ctx.fillText("Game Over", 130, 200);
+      //ctx.drawImage(Resources.get("images/play-again1.png"), 175, 340);
+    }
+
+
     allEnemies.forEach(function(enemy) {
       enemy.render();
     });
