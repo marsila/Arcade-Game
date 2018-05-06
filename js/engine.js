@@ -97,7 +97,7 @@ var Engine = (function(global) {
       gem.update(dt);
     });
     player.update();
-    light.update();
+    //light.update();
     heart.update();
   }
 
@@ -157,10 +157,7 @@ var Engine = (function(global) {
     /* Loop through all of the objects within the allEnemies array and call
      * the render function you have defined.
      */
-    if (allEnemies.length == 0) {
-      ctx.fillText("Game Over", 130, 200);
-      //ctx.drawImage(Resources.get("images/play-again1.png"), 175, 340);
-    }
+
 
 
     allEnemies.forEach(function(enemy) {
@@ -173,6 +170,11 @@ var Engine = (function(global) {
     player.render();
     light.render();
     heart.render();
+
+    if (allEnemies.length == 0) {
+      ctx.fillText("Game Over", 130, 200);
+      //ctx.drawImage(Resources.get("images/play-again1.png"), 175, 340);
+    }
   }
 
   /* This function does nothing but it could have been a good place to

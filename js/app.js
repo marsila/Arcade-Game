@@ -1,19 +1,27 @@
-//choose the player character
-
+// Enemies our player must avoid
+let allEnemies = [];
+// the player character
 const playersCards = document.querySelectorAll(".card");
 const start = document.querySelector(".start-game");
 const scorePanel = document.querySelector(".score-panel");
 const playAgainButton = document.querySelector(".play-again");
+const finishGame = document.querySelector(".finish-game");
+const wonStars = document.querySelector(".stars-result");
+const canv = document.querySelector(".canvas");
 let playerChar;
 let allGem = [];
 const hearts = document.querySelector(".hearts");
 const stars = document.querySelector(".stars");
 let heartsCount = 0;
 let starsCount = 3;
-
+/*Scores :In the beginning of the game the player has 3 golden stars,
+///and he gots a red heart every time he collect a Gem.
+///if th bug hits the player , the player loses a heart first,
+///if he gots  no hearts  he loses a star.
+ //The game over when the player loses all the 3 stars he had.  */
 function loseStar() {
   if (starsCount > 0) {
-    stars.children[starsCount - 1].style.color = "gray";
+    stars.children[starsCount - 1].style.color = "#888788";
   }
   starsCount--;
   if (starsCount == 0 && heartsCount == 0) {
@@ -30,6 +38,7 @@ function gameOver() {
 
 }
 
+
 function winHeart() {
   for (var i = 0; i < heartsCount; i++) {
     hearts.children[i].style.color = "red";
@@ -37,7 +46,7 @@ function winHeart() {
 }
 
 function loseHeart() {
-  hearts.children[heartsCount - 1].style.color = "gray";
+  hearts.children[heartsCount - 1].style.color = "#888788";
   heartsCount--;
 }
 
@@ -66,24 +75,73 @@ function startGame() {
   player = new Player(playerChar, 205, 446);
   genrateEnemies();
   genrateGems();
-  document.body.appendChild(canvas);
+  canv.style.display = "block";
+  canv.appendChild(canvas);
+}
 
+
+function setWonStars() {
+  if (starsCount < 3) {
+    console.log(`starsCount1 =${starsCount}`);
+    if (heartsCount == 3)
+      starsCount++;
+  }
+  console.log(`starsCount2 =${starsCount}`);
+  for (var i = 0; i < starsCount; i++) {
+    console.log(`i = ${i} \n stars = wonStars.children[${i}]`);
+    wonStars.children[i].className = "won-stars";
+    wonStars.children[i].style.color = "gold";
+  }
+}
+
+function winTheGame() {
+  canv.style.display = "none";
+  scorePanel.style.display = "none";
+  finishGame.style.display = "block";
+  console.log(`i'm here in the winThe Game and stars count = ${starsCount}`);
+  setWonStars();
 
 }
 
+function onKeyDown(event) {
+  event.preventDefault();
+}
+
 function playAgain() {
+  finishGame.style.display = "none";
+  start.style.display = "block";
+  canv.removeChild(canvas);
+  onKeyDown(event);
+
+  starsCount = 3;
+  if (heartsCount > 0) {
+    for (var i = 0; i < heartsCount; i++) {
+      hearts.children[i].style.color = "#888788";
+    }
+    heartsCount = 0;
+  }
+  for (var i = 0; i < starsCount; i++) {
+    stars.children[i].style.color = "gold";
+  }
+  for (var i = 0; i < 3; i++) {
+    wonStars.children[i].classList.remove("won-stars");
+    wonStars.children[i].style.color = "#888788";
+  }
+}
+
+function resetGame() {
   start.style.display = "block";
   scorePanel.style.display = "none";
   playAgainButton.style.display = "none";
-  document.body.removeChild(canvas);
+  onKeyDown(event);
+  canv.removeChild(canvas);
   starsCount = 3;
   for (var i = 0; i < starsCount; i++) {
     stars.children[i].style.color = "gold";
   }
 
 }
-// Enemies our player must avoid
-let allEnemies = [];
+
 //Enemy Class
 class Enemy {
   constructor(x, y) {
@@ -92,7 +150,7 @@ class Enemy {
     this.sprite = 'images/enemy-bug.png';
   }
   update(dt) {
-    let speed = 3 * dt;
+    let speed = 20 * dt;
     this.x += speed;
     if (this.x >= 500) {
       this.x = 0;
@@ -110,7 +168,6 @@ class Enemy {
       light.x = player.x;
       light.y = player.y;
       this.x = x1 - 101;
-      //this.y = Math.floor(60 + Math.random() * 231);
       setTimeout(() => {
         light.x = -200;
         light.y = -200;
@@ -159,13 +216,12 @@ class Light {
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   }
-  update() {}
-
 };
+
 //heart class
 /*
  *** When the  player collect a gem,
- *** a heart will appaear and the player will got an extra chance.
+ *** a red heart will appaear and the player will got an extra chance.
  *******
  */
 class Heart {
@@ -269,7 +325,12 @@ class Player {
     this.y = y;
   }
   update() {
-
+    if (this.y > -6 && this.y < 10) {
+      this.y = -6;
+      allEnemies = [];
+      allGem = [];
+      setTimeout(winTheGame(), 500);
+    }
   }
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -315,10 +376,10 @@ document.addEventListener('keyup', function(e) {
 
 
 
-  // TODO: 
-  ////     
-  ////     **Win the Game.
-  /////    
+  // TODO:
+  ////     .
+  ////     // OPTIMIZE: Javascript code
+  /////
   ///////////
 
 });

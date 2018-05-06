@@ -43,6 +43,7 @@ header h1 {
   font-size: 1.6em;
   margin-right: 10px;
   margin-bottom: 0;
+  /* border: solid 1px black; */
 }
 
 .score-panel .stars {
@@ -144,9 +145,9 @@ header h1 {
 }
 
 .finish-game {
-  width: 95%;
-  min-height: 1000px;
-  /* display: none; */
+  width: 90%;
+  min-height: 500px;
+  display: none;
   box-shadow: 5px 2px 20px 0 rgba(0, 0, 0, 0.26);
   border-radius: 30px;
   justify-content: center;
@@ -158,8 +159,35 @@ header h1 {
 }
 
 .finish-game {
+  -webkit-animation-name: bounce;
+  animation-name: bounce;
+  -webkit-transform-origin: center bottom;
+  transform-origin: center bottom;
+  animation-duration: 2s;
+}
+
+@keyframes bounce {
+  from, 20%, 50%, 80%, to {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+  40%, 33% {
+    -webkit-transform: translateY(-16px);
+    transform: translateY(-16px);
+  }
+  70% {
+    -webkit-transform: translateY(-10px);
+    transform: translateY(-10px);
+  }
+  90% {
+    -webkit-transform: translateY(-3px);
+    transform: translateY(-3px);
+  }
+}
+
+/* .finish-game {
   display: block;
-  z-index: 10;
+  z-index: 15;
   position: absolute;
   -webkit-transform: translateY(-9999px);
   transform: translateY(-9999px);
@@ -169,10 +197,51 @@ header h1 {
 .finish-game.view {
   -webkit-transform: translateY(0);
   transform: translateY(0);
-}
+} */
 
 .finish-game h1 {
   color: #341f84;
   margin-top: 5em;
 }
 
+.stars-result {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+}
+
+.stars-result li {
+  list-style: none;
+  display: inline-block;
+  padding: 1px;
+  color: #888788;
+  text-shadow: 5px 3px 10px rgba(0, 0, 0, 0.29);
+  font-size: 3em;
+}
+
+.won-stars {
+  -webkit-animation-name: won;
+  animation-name: won;
+  color: gold;
+  -webkit-transform-origin: center bottom;
+  transform-origin: center bottom;
+  animation-duration: 2s;
+}
+
+@keyframes won {
+  from {
+    -webkit-transform: scale(-1);
+    transform: scale(-1);
+    color: gold;
+  }
+  40% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    color: gold;
+  }
+  90%, to {
+    -webkit-transform: scale(2);
+    transform: scale(2);
+    color: gold;
+  }
+}
