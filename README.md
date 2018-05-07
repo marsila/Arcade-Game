@@ -1,4 +1,4 @@
-#Arcade game project by Rasha Ali
+# Arcade game project by Rasha Ali
 
 This is my version of the Arcade Game. It is part of the front-end web developer Nano-degree program.
 The canvas functions code was provided by Udacity.
@@ -15,7 +15,7 @@ If the player loses one or 2 stars in the beginning of the game and then he coll
 till the end of game, he will win an additional star to be added to his score.
 
 
-##How to play the game
+## How to play the game
 
 1- Choose a player character and start the game.
 
