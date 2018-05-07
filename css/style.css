@@ -98,7 +98,6 @@ header h1 {
 
 .players {
   width: 90%;
-  min-height: 100%;
   padding: 32px;
   border-radius: 10px;
   box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
@@ -184,20 +183,6 @@ header h1 {
     transform: translateY(-3px);
   }
 }
-
-/* .finish-game {
-  display: block;
-  z-index: 15;
-  position: absolute;
-  -webkit-transform: translateY(-9999px);
-  transform: translateY(-9999px);
-  transition: transform 2s ease;
-}
-
-.finish-game.view {
-  -webkit-transform: translateY(0);
-  transform: translateY(0);
-} */
 
 .finish-game h1 {
   color: #341f84;

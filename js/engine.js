@@ -97,8 +97,6 @@ var Engine = (function(global) {
       gem.update(dt);
     });
     player.update();
-    //light.update();
-    heart.update();
   }
 
   /* This function initially draws the "game level", it will then call
@@ -173,7 +171,6 @@ var Engine = (function(global) {
 
     if (allEnemies.length == 0) {
       ctx.fillText("Game Over", 130, 200);
-      //ctx.drawImage(Resources.get("images/play-again1.png"), 175, 340);
     }
   }
 
