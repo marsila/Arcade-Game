@@ -1,21 +1,21 @@
-const playersCards = document.querySelectorAll(".card");
-const startPage = document.querySelector(".start-game");
-const scorePanel = document.querySelector(".score-panel");
-const playAgainButton = document.querySelector(".play-again");
-const finishGame = document.querySelector(".finish-game");
-const wonStars = document.querySelector(".stars-result");
-const canv = document.querySelector(".canvas");
-const hearts = document.querySelector(".hearts");
-const stars = document.querySelector(".stars");
-const speed = 1.1;
+const playersCards = document.querySelectorAll(".card"),
+  startPage = document.querySelector(".start-game"),
+  scorePanel = document.querySelector(".score-panel"),
+  playAgainButton = document.querySelector(".play-again"),
+  finishGame = document.querySelector(".finish-game"),
+  wonStars = document.querySelector(".stars-result"),
+  canv = document.querySelector(".canvas"),
+  hearts = document.querySelector(".hearts"),
+  stars = document.querySelector(".stars"),
+  speed = 1.1;
 
-let allEnemies = [];
-let allGem = [];
-let heartsCount = 0;
-let starsCount = 3;
-let playerChar = getDefaultPalyer();
+let allEnemies = [],
+  allGem = [],
+  heartsCount = 0,
+  starsCount = 3;
+let playerChar = getDefaultPlayer();
 
-function getDefaultPalyer() {
+function getDefaultPlayer() {
   playersCards[0].className = "card choose";
   return playersCards[0].id;
 }
@@ -46,7 +46,7 @@ function loseStar() {
     stars.children[starsCount - 1].style.color = "#888788";
   }
   starsCount--;
-  if (starsCount == 0 && heartsCount == 0) {
+  if (starsCount === 0 && heartsCount === 0) {
     gameOver();
   }
 }
@@ -54,7 +54,7 @@ function loseStar() {
 function gameOver() {
   ctx.fillStyle = "#341f84";
   ctx.font = "700 50px Coda";
-  playAgainButton.style.display = "block";
+  playAgainButton.classList.add('show');
   allEnemies = [];
   allGem = [];
 
@@ -72,9 +72,11 @@ for (let i = 0; i < playersCards.length; i++) {
 
 //Start the game
 function startGame() {
-  startPage.style.display = "none";
-  finishGame.style.display = "none";
-  scorePanel.style.display = "block";
+  startPage.classList.remove('show');
+  startPage.classList.add('hide');
+  finishGame.classList.remove('show');
+  finishGame.classList.add('hide');
+  scorePanel.classList.add('show');
   resetCanvas();
   resetHearts();
   resetStars();
@@ -84,20 +86,22 @@ function resetCanvas() {
   player = new Player(playerChar, 205, 446);
   generateEnemies();
   generateGems();
-  canv.style.display = "block";
+  canv.classList.remove('hide');
+  canv.classList.add('show');
   canv.appendChild(canvas);
 }
 
 function winTheGame() {
   hideCanvas();
-  finishGame.style.display = "block";
-  playAgainButton.style.display = "none";
+  finishGame.classList.remove('hide');
+  finishGame.classList.add('show');
+  playAgainButton.classList.remove('show');
   setWonStars();
 }
 
 function setWonStars() {
   if (starsCount < 3) {
-    if (heartsCount == 3)
+    if (heartsCount === 3)
       starsCount++;
   }
   for (var i = 0; i < starsCount; i++) {
@@ -107,9 +111,11 @@ function setWonStars() {
 }
 
 function playAgain() {
-  finishGame.style.display = "none";
-  startPage.style.display = "block";
-  playAgainButton.style.display = "none";
+  finishGame.classList.remove('show');
+  finishGame.classList.add('hide');
+  startPage.classList.remove('hide');
+  startPage.classList.add('show');
+  playAgainButton.classList.remove('show');
   resetHearts();
   resetStars();
   resetWonStars();
@@ -139,18 +145,20 @@ function resetWonStars() {
 }
 
 function hideCanvas() {
-  scorePanel.style.display = "none";
-  canv.style.display = "none";
+  scorePanel.classList.remove('show');;
+  canv.classList.remove('show');
+  canv.classList.add('hide');
 }
 
 function resetGame() {
-  startPage.style.display = "block";
-  playAgainButton.style.display = "none";
-  canv.removeChild(canvas);
+  startPage.classList.remove('hide');
+  startPage.classList.add('show');
+  playAgainButton.classList.remove('show');
+  //canv.removeChild(canvas);
   hideCanvas();
   resetStars();
 }
-//Enemy 
+//Enemy
 class Enemy {
   constructor(x, y) {
     this.x = x;
@@ -187,7 +195,7 @@ class Enemy {
       if (heartsCount > 0) {
         loseHeart();
       } else {
-        if (starsCount == 0 && heartsCount == 0) {
+        if (starsCount === 0 && heartsCount === 0) {
           gameOver();
         }
         loseStar();
@@ -326,12 +334,11 @@ let light = new Light(-200, -200);
 let heart = new Heart(-200, -200);
 
 function generateEnemies() {
-  const enemy1 = new Enemy(0, 60);
-  const enemy2 = new Enemy(200, 100);
-  const enemy3 = new Enemy(400, 170);
-  const enemy4 = new Enemy(100, 200);
-  const enemy5 = new Enemy(300, 250);
-  allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
+  allEnemies[0] = new Enemy(0, 60);
+  allEnemies[1] = new Enemy(200, 100);
+  allEnemies[2] = new Enemy(400, 170);
+  allEnemies[3] = new Enemy(100, 200);
+  allEnemies[4] = new Enemy(300, 250);
 }
 //Gems player have to collect in order to win a new chance after being hit by a bug.
 function generateGems() {
@@ -352,4 +359,12 @@ document.addEventListener('keyup', function(e) {
   };
 
   player.handleInput(allowedKeys[e.keyCode]);
+});
+
+//listen for mouse clicks on play again buttons
+document.getElementById('play-again').addEventListener('click', (e) => {
+  playAgain();
+});
+document.getElementById('reset-game').addEventListener('click', (e) => {
+  resetGame();
 });
